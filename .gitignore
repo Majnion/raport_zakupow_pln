@@ -1,0 +1,4 @@
+*.db
+raport_*.csv
+raport_*.json
+__pycache__/
