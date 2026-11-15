@@ -61,5 +61,4 @@ Pliki wynikowe są wpisane do `.gitignore`, więc nie ma ich w repozytorium. Pow
 
 ## Znane ograniczenia
 
-- Zestawienie jest liczone z **całej tabeli w bazie**, a nie tylko z bieżącego uruchomienia. Jeśli program uruchomisz bez internetu, raport powstanie ze starych danych i starych kursów, a w konsoli będzie tylko informacja `Wczytano: 0`.
-- Stosowany jest ostatni opublikowany kurs, a nie kurs z dnia zamówienia.
+- Rekord z pliku zakupy.csv nadpisuje rekord o tym samym unikalnym id
