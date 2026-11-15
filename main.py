@@ -128,14 +128,19 @@ def policz_wiersze(nazwa_pliku):
             liczba_wczytanych += 1
 
     return liczba_wczytanych
-    
-zakupy = wczytaj_zakupy("zakupy.csv")
-zakupy_policzone = przelicz_na_pln(zakupy)
-zapisz_do_bazy(zakupy_policzone, "zakupy.db")
-df = zestawienie("zakupy.db")
-zapisz_raport(df, "raport_zakupy.csv", "raport_zakupy.json")
 
-print(f"Wczytano: {len(zakupy_policzone)}, pominięto: {policz_wiersze("zakupy.csv") - len(zakupy_policzone)}")
-max_id = df["suma_pln"].idxmax()
-max_dostawca = df.loc[max_id, "dostawca"]
-print(max_dostawca)
+
+def main():
+    zakupy = wczytaj_zakupy("zakupy.csv")
+    zakupy_policzone = przelicz_na_pln(zakupy)
+    zapisz_do_bazy(zakupy_policzone, "zakupy.db")
+    df = zestawienie("zakupy.db")
+    zapisz_raport(df, "raport_zakupy.csv", "raport_zakupy.json")
+
+    print(f"Wczytano: {len(zakupy_policzone)}, pominięto: {policz_wiersze("zakupy.csv") - len(zakupy_policzone)}")
+    max_id = df["suma_pln"].idxmax()
+    max_dostawca = df.loc[max_id, "dostawca"]
+    print(max_dostawca)
+
+if __name__ == "__main__":
+    main()
