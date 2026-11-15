@@ -74,7 +74,12 @@ def zapisz_do_bazy(zakupy, nazwa_bazy):
         cur = conn.cursor()
 
         cur.execute("""
-            create table if not exists zakupy(
+            drop table if exists zakupy
+        """)
+
+
+        cur.execute("""
+            create table zakupy(
                 nr TEXT PRIMARY KEY,
                 dostawca TEXT,
                 waluta TEXT,
@@ -86,7 +91,7 @@ def zapisz_do_bazy(zakupy, nazwa_bazy):
 
         for row in zakupy:
             cur.execute("""
-                insert or replace into zakupy (nr, dostawca, waluta, kwota, kurs, kwota_pln)
+                insert into zakupy (nr, dostawca, waluta, kwota, kurs, kwota_pln)
                 values(?, ? ,? ,? , ?, ?)
             """, (row["nr"], row["dostawca"], row["waluta"], row["kwota"], row["kurs"], row["kwota_pln"]))
 
@@ -133,6 +138,10 @@ def policz_wiersze(nazwa_pliku):
 def main():
     zakupy = wczytaj_zakupy("zakupy.csv")
     zakupy_policzone = przelicz_na_pln(zakupy)
+    if not zakupy_policzone:
+        print("Brak danych do raportu: nie pobrano żadnych kursów")
+        return        
+
     zapisz_do_bazy(zakupy_policzone, "zakupy.db")
     df = zestawienie("zakupy.db")
     zapisz_raport(df, "raport_zakupy.csv", "raport_zakupy.json")
